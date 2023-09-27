@@ -1,8 +1,7 @@
 {% extends "base.html.j2" %}
 
 {% block navbar %}
-<!-- TODO: hx-push-url should not be false, we should be able to refresh or navigate to each of the links, and still have the navbar. -->
-<div class="left-wrapper" id="navbar" hx-target="#content" hx-push-url="false">
+<div class="left-wrapper" id="navbar" hx-target="#content">
     <a href="/click_to_edit/">1. Click to Edit</a><br>
     <a href="/bulk_update/">2. Bulk Update</a><br>
     <a href="/click_to_load/">3. Click to Load</a><br>
@@ -31,7 +30,5 @@
 {% endblock%}
 
 {% block content %}
-<div class="right-wrapper" id="content">
-    <h3>Implementation of the <a href="https://htmx.org/examples/">htmx Examples</a> using a Flask server.</h3>
-</div>
+<h3>Implementation of the <a href="https://htmx.org/examples/">htmx Examples</a> using a Flask server.</h3>
 {% endblock %}

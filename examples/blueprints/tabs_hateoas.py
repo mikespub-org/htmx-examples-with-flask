@@ -1,12 +1,17 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template
+from jinja2_fragments.flask import render_block
 
+from ..extensions import htmx
 
 bp = Blueprint("tabs_hateoas", __name__, url_prefix="/tabs_hateoas")
 
 
 @bp.route("/")
 def index():
-    return render_template("tabs_hateoas/index.html.j2")
+    if htmx:
+        return render_block("tabs_hateoas/index.html.j2", "content")
+    else:
+        return render_template("tabs_hateoas/index.html.j2")
 
 
 @bp.route("/tab1/")

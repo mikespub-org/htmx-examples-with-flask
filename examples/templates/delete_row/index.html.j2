@@ -1,3 +1,6 @@
+{% extends "index.html.j2" %}
+
+{% block content %}
 <form>
     <table class="table delete-row-example">
         <thead>
@@ -15,7 +18,7 @@
                 <td>{{ contact.email }}</td>
                 <td>{{ contact.status }}</td>
                 <td>
-                    <button class="btn btn-danger" hx-delete="delete_row/contact/{{ id }}">
+                    <button class="btn btn-danger" hx-delete="/delete_row/contact/{{ id }}">
                         Delete
                     </button>
                 </td>
@@ -24,3 +27,4 @@
         </tbody>
     </table>
 </form>
+{% endblock %}

@@ -1,3 +1,7 @@
+{% extends "index.html.j2" %}
+
+{% block content %}
 <button hx-trigger="click, keyup[altKey&&shiftKey&&key=='D'] from:body" hx-post="/keyboard_shortcuts/doit">
     Do It! (alt-shift-D)
 </button>
+{% endblock %}

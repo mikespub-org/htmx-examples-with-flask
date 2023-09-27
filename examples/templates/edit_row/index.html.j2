@@ -1,3 +1,6 @@
+{% extends "index.html.j2" %}
+
+{% block content %}
 <table class="table edit-row-example">
     <thead>
         <tr>
@@ -9,6 +12,7 @@
     <tbody hx-target="closest tr" hx-swap="outerHTML">
         {% for contact in contacts %}
         <form>
+            {% block table_row scoped %}
             <tr>
                 <td>{{ contact.name }}</td>
                 <td>{{ contact.email }}</td>
@@ -28,7 +32,9 @@
                     </button>
                 </td>
             </tr>
+            {% endblock table_row %}
         </form>
         {% endfor %}
     </tbody>
 </table>
+{% endblock %}

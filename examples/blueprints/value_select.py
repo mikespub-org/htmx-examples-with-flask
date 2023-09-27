@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, request
+from jinja2_fragments.flask import render_block
 
+from ..extensions import htmx
 
 bp = Blueprint("value_select", __name__, url_prefix="/value_select")
 
@@ -13,10 +15,30 @@ data = {
 @bp.route("/")
 def index():
     current_make = "audi"
-    return render_template("value_select/index.html.j2", makes=data.keys(), current_make=current_make, models=data[current_make]["models"])
+    if htmx:
+        return render_block(
+            "value_select/index.html.j2",
+            "content",
+            makes=data.keys(),
+            current_make=current_make,
+            models=data[current_make]["models"],
+        )
+    else:
+        return render_template(
+            "value_select/index.html.j2",
+            makes=data.keys(),
+            current_make=current_make,
+            models=data[current_make]["models"],
+        )
 
 
 @bp.route("/models/")
 def models():
     current_make = request.args["make"]
-    return render_template("value_select/partial_models.html.j2", makes=data.keys(), current_make=current_make, models=data[current_make]["models"])
+    return render_block(
+        "value_select/index.html.j2",
+        "models",
+        makes=data.keys(),
+        current_make=current_make,
+        models=data[current_make]["models"],
+    )

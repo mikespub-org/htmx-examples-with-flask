@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template
+from jinja2_fragments.flask import render_block
 
+from ..extensions import htmx
 
 bp = Blueprint("delete_row", __name__, url_prefix="/delete_row")
 
@@ -29,10 +31,13 @@ data = {
 
 @bp.route("/")
 def index():
-    return render_template("delete_row/index.html.j2", contacts=data)
+    if htmx:
+        return render_block("delete_row/index.html.j2", "content", contacts=data)
+    else:
+        return render_template("delete_row/index.html.j2", contacts=data)
 
 
 @bp.route("/contact/<int:id>", methods=["DELETE"])
 def contact(id):
     del data[id]
-    return render_template("delete_row/index.html.j2", contacts=data)
+    return index()

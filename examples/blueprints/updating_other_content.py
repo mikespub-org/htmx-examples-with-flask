@@ -1,5 +1,7 @@
 from flask import Blueprint, make_response, render_template, request
+from jinja2_fragments.flask import render_block
 
+from ..extensions import htmx
 
 bp = Blueprint("updating_other_content", __name__, url_prefix="/updating_other_content")
 
@@ -17,7 +19,12 @@ data = [
 
 @bp.route("/")
 def index():
-    return render_template("updating_other_content/index.html.j2", contacts=data)
+    if htmx:
+        return render_block(
+            "updating_other_content/index.html.j2", "content", contacts=data
+        )
+    else:
+        return render_template("updating_other_content/index.html.j2", contacts=data)
 
 
 @bp.route("/contacts1", methods=("POST",))
@@ -51,12 +58,16 @@ def contacts3():
     )
     res = make_response("", 204)
     res.headers["HX-Trigger"] = "newContact"
+    # with flask-htmx .reponses.make_response
+    # res = make_response("", 204, trigger="newContact")
     return res
 
 
 @bp.route("/contacts3/table")
 def contacts3_table():
-    return render_template("updating_other_content/partial_table.html.j2", contacts=data)
+    return render_template(
+        "updating_other_content/partial_table.html.j2", contacts=data
+    )
 
 
 @bp.route("/contacts4", methods=("POST",))
@@ -72,4 +83,6 @@ def contacts4():
 
 @bp.route("/contacts4/table")
 def contacts4_table():
-    return render_template("updating_other_content/partial_table.html.j2", contacts=data)
+    return render_template(
+        "updating_other_content/partial_table.html.j2", contacts=data
+    )

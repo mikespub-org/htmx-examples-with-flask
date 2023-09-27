@@ -1,3 +1,6 @@
+{% extends "index.html.j2" %}
+
+{% block content %}
 <div hx-target="this" hx-swap="outerHTML">
     <div><label>First Name</label>: {{ contact.firstName }}</div>
     <div><label>Last Name</label>: {{ contact.lastName }}</div>
@@ -6,3 +9,4 @@
         Click To Edit
     </button>
 </div>
+{% endblock %}

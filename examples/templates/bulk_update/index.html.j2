@@ -1,3 +1,6 @@
+{% extends "index.html.j2" %}
+
+{% block content %}
 <form id="checked-contacts">
     <table>
         <thead>
@@ -24,3 +27,4 @@
         <button class="btn" hx-put="/bulk_update/deactivate">Deactivate</button>
     </div>
 </form>
+{% endblock %}

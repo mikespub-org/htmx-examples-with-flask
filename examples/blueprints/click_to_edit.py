@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, request
+from jinja2_fragments.flask import render_block
 
+from ..extensions import htmx
 
 bp = Blueprint("click_to_edit", __name__, url_prefix="/click_to_edit")
 
@@ -18,7 +20,10 @@ def contact(id):
     if request.method == "PUT":
         data[id] = {k: request.form[k] for k in ("firstName", "lastName", "email")}
 
-    return render_template("click_to_edit/index.html.j2", contact=data[id])
+    if htmx:
+        return render_block("click_to_edit/index.html.j2", "content", contact=data[id])
+    else:
+        return render_template("click_to_edit/index.html.j2", contact=data[id])
 
 
 @bp.route("/contact/<int:id>/edit")

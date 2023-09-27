@@ -1,3 +1,6 @@
+{% extends "index.html.j2" %}
+
+{% block content %}
 <table>
     <thead>
         <tr>
@@ -18,9 +21,11 @@
             <td colspan="3">
                 <button class='btn' hx-get="/click_to_load/contacts/?page={{ page + 1 }}" hx-target="#replaceMe"
                     hx-swap="outerHTML">
-                    Load More Agents... <img class="htmx-indicator" src="/static/img/bars.svg">
+                    Load More Agents...
+                    <img class="htmx-indicator" src="/static/img/bars.svg">
                 </button>
             </td>
         </tr>
     </tbody>
 </table>
+{% endblock %}

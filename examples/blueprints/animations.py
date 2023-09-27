@@ -1,14 +1,19 @@
 from time import sleep
 
 from flask import Blueprint, render_template
+from jinja2_fragments.flask import render_block
 
+from ..extensions import htmx
 
 bp = Blueprint("animations", __name__, url_prefix="/animations")
 
 
 @bp.route("/")
 def index():
-    return render_template("animations/index.html.j2", color="red")
+    if htmx:
+        return render_block("animations/index.html.j2", "content", color="red")
+    else:
+        return render_template("animations/index.html.j2", color="red")
 
 
 color_options = ["red", "blue", "green", "orange"]
@@ -19,7 +24,9 @@ color_index = 0
 def colors():
     global color_index
     color_index = (color_index + 1) % len(color_options)
-    return render_template("animations/color_swap.html.j2", color=color_options[color_index])
+    return render_template(
+        "animations/color_swap.html.j2", color=color_options[color_index]
+    )
 
 
 @bp.route("/fade_out_demo", methods=("DELETE",))

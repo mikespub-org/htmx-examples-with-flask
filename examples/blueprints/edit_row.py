@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, request
+from jinja2_fragments.flask import render_block
 
+from ..extensions import htmx
 
 bp = Blueprint("edit_row", __name__, url_prefix="/edit_row")
 
@@ -29,7 +31,10 @@ data = [
 
 @bp.route("/")
 def index():
-    return render_template("edit_row/index.html.j2", contacts=data)
+    if htmx:
+        return render_block("edit_row/index.html.j2", "content", contacts=data)
+    else:
+        return render_template("edit_row/index.html.j2", contacts=data)
 
 
 @bp.route("/contact/<int:id>", methods=["GET", "PUT"])
@@ -42,10 +47,9 @@ def contact(id):
             "email": request.form["email"],
         }
 
-    return render_template("edit_row/partial.html.j2", contact=data[id])
+    return render_block("edit_row/index.html.j2", "table_row", contact=data[id])
 
 
 @bp.route("/contact/<int:id>/edit")
 def contact_edit(id):
-    print("blubb")
     return render_template("edit_row/edit.html.j2", contact=data[id])

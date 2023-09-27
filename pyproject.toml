@@ -10,6 +10,8 @@ packages = [{include = "examples"}]
 python = "^3.11"
 click = "^8.1.7"
 flask = "^2.3.3"
+flask-htmx = "^0.3.1"
+jinja2-fragments = "^1.0.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.9.1"

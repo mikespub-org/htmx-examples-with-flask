@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, request
+from jinja2_fragments.flask import render_block
 
+from ..extensions import htmx
 
 bp = Blueprint("inline_validation", __name__, url_prefix="/inline_validation")
 
@@ -11,7 +13,10 @@ def validate_email(email):
 @bp.route("/")
 @bp.route("/contact", methods=("POST",))
 def contact():
-    return render_template("inline_validation/index.html.j2")
+    if htmx:
+        return render_block("inline_validation/index.html.j2", "content")
+    else:
+        return render_template("inline_validation/index.html.j2")
 
 
 @bp.route("/contact/email", methods=("POST",))
